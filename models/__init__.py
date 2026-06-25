@@ -1,8 +1,4 @@
-from .cbam import CBAM
-from .decoder import ResidualBlock, ResidualDecoder
-from .discriminator import PatchDiscriminator
-from .encoder import EfficientNetEncoder
-from .generator import SAR2EOGenerator
+"""Model package. Import submodules directly to avoid circular import warnings."""
 
 __all__ = [
     "CBAM",
