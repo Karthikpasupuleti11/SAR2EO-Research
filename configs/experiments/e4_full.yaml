@@ -1,0 +1,14 @@
+# E4: Full proposed model — all losses enabled
+experiment:
+  name: E4
+  use_gan: true
+  use_perceptual: true
+  use_ssim: true
+
+model:
+  use_cbam: true
+
+training:
+  lambda_l1: 100.0
+  lambda_perceptual: 10.0
+  lambda_ssim: 5.0

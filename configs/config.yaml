@@ -7,15 +7,36 @@ dataset:
 
 training:
   image_size: 256
-  batch_size: 16
-  num_workers: 0
+  batch_size: 8
+  num_workers: 2
+  epochs: 1
+  use_amp: true
+  # Generator loss: adv + lambda_l1*L1 + lambda_perceptual*Perc + lambda_ssim*SSIM
+  lambda_l1: 100.0
+  lambda_perceptual: 10.0
+  lambda_ssim: 5.0
+  checkpoint_dir: checkpoints
+  sample_dir: outputs/samples
   train_split: 0.80
   val_split: 0.10
   test_split: 0.10
 
+# E1 baseline default — train this first, not the full model.
+# Progression: E1 (L1) -> E2 (+GAN) -> E3 (+CBAM) -> E4 (+Perceptual+SSIM)
+experiment:
+  name: E1
+  use_gan: false
+  use_perceptual: false
+  use_ssim: false
+
 model:
   in_channels: 1
   out_channels: 3
+  encoder_name: efficientnet_b0
+  pretrained_encoder: true
+  use_cbam: false
+  use_residual: true
+  ndf: 64
 
 optimizer:
   lr: 0.0002

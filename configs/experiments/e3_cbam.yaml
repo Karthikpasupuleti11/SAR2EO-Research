@@ -1,0 +1,9 @@
+# E3: E2 model + CBAM attention
+experiment:
+  name: E3
+  use_gan: true
+  use_perceptual: false
+  use_ssim: false
+
+model:
+  use_cbam: true

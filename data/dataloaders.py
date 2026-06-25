@@ -3,15 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Dict
 
-import yaml
 from torch.utils.data import DataLoader
 
+from utils.config import load_config
+
 from .dataset import SAROpticalDataset, collate_batch
-
-
-def load_config(config_path: str | Path = "configs/config.yaml") -> Dict:
-    with Path(config_path).open("r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
 
 
 def build_dataloaders(

@@ -1,0 +1,9 @@
+# E2: E1 model + GAN loss
+experiment:
+  name: E2
+  use_gan: true
+  use_perceptual: false
+  use_ssim: false
+
+model:
+  use_cbam: false
