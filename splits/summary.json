@@ -1,0 +1,43 @@
+{
+  "metadata_path": "metadata.parquet",
+  "ratios": {
+    "train": 0.8,
+    "val": 0.1,
+    "test": 0.1
+  },
+  "counts": {
+    "train": 13137,
+    "val": 1213,
+    "test": 1650
+  },
+  "percentages": {
+    "train": 0.8211,
+    "val": 0.0758,
+    "test": 0.1031
+  },
+  "unique_tiles": {
+    "train": 19,
+    "val": 7,
+    "test": 6
+  },
+  "terrain_counts": {
+    "train": {
+      "agri": 3185,
+      "barrenland": 3194,
+      "grassland": 3551,
+      "urban": 3207
+    },
+    "val": {
+      "agri": 288,
+      "barrenland": 415,
+      "grassland": 107,
+      "urban": 403
+    },
+    "test": {
+      "agri": 527,
+      "barrenland": 391,
+      "grassland": 342,
+      "urban": 390
+    }
+  }
+}

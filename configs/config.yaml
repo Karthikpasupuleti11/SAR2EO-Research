@@ -1,0 +1,23 @@
+seed: 42
+
+dataset:
+  root: datasets/sentinel12/v_2
+  splits_dir: splits
+  metadata_path: metadata.parquet
+
+training:
+  image_size: 256
+  batch_size: 16
+  num_workers: 0
+  train_split: 0.80
+  val_split: 0.10
+  test_split: 0.10
+
+model:
+  in_channels: 1
+  out_channels: 3
+
+optimizer:
+  lr: 0.0002
+  beta1: 0.5
+  beta2: 0.999
