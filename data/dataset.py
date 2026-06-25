@@ -37,14 +37,18 @@ class SAROpticalDataset(Dataset):
 
         return samples
 
+    @staticmethod
+    def _normalize_path(path_str: str) -> Path:
+        return Path(path_str.replace("\\", "/"))
+
     def __len__(self) -> int:
         return len(self.samples)
 
     def __getitem__(self, index: int) -> Dict[str, Any]:
         sample = self.samples[index]
 
-        sar_path = Path(sample["sar_path"])
-        optical_path = Path(sample["optical_path"])
+        sar_path = self._normalize_path(sample["sar_path"])
+        optical_path = self._normalize_path(sample["optical_path"])
 
         if not sar_path.exists():
             raise FileNotFoundError(f"SAR image not found: {sar_path}")

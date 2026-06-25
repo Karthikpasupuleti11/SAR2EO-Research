@@ -17,7 +17,15 @@ VALID_TERRAINS = {
 
 def build_metadata(dataset_root: Path) -> pd.DataFrame:
     if not dataset_root.exists():
-        raise FileNotFoundError(f"Dataset root not found: {dataset_root}")
+        raise FileNotFoundError(
+            f"Dataset root not found: {dataset_root}\n"
+            "On Kaggle, run first:\n"
+            "  python scripts/setup_kaggle_data.py\n"
+            "Or pass the input path directly:\n"
+            "  python utils/build_metadata.py --dataset-root "
+            "/kaggle/input/datasets/requiemonk/"
+            "sentinel12-image-pairs-segregated-by-terrain/v_2"
+        )
 
     records = []
 
@@ -58,8 +66,8 @@ def build_metadata(dataset_root: Path) -> pd.DataFrame:
                     "season": season,
                     "tile": tile,
                     "patch": patch,
-                    "sar_path": str(sar_path),
-                    "optical_path": str(optical_path),
+                    "sar_path": sar_path.as_posix(),
+                    "optical_path": optical_path.as_posix(),
                     "filename": sar_path.name,
                 }
             )
