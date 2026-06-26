@@ -4,9 +4,17 @@ from typing import Dict, List
 
 import lpips
 import torch
-import torch.nn.functional as F
-from torchmetrics.image import FrechetInceptionDistance, PeakSignalNoiseRatio
-from torchmetrics.image import StructuralSimilarityIndexMeasure
+
+try:
+    from torchmetrics.image import (
+        FrechetInceptionDistance,
+        PeakSignalNoiseRatio,
+        StructuralSimilarityIndexMeasure,
+    )
+except ImportError:
+    from torchmetrics.image.fid import FrechetInceptionDistance
+    from torchmetrics.image.psnr import PeakSignalNoiseRatio
+    from torchmetrics.image.ssim import StructuralSimilarityIndexMeasure
 
 
 class ImageMetrics:
