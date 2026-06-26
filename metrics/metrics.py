@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import lpips
 import torch
@@ -20,12 +20,21 @@ except ImportError:
 class ImageMetrics:
     """Compute PSNR, SSIM, LPIPS, and FID for SAR-to-EO evaluation."""
 
-    def __init__(self, device: torch.device) -> None:
+    def __init__(self, device: torch.device, compute_fid: bool = True) -> None:
         self.device = device
         self.psnr = PeakSignalNoiseRatio(data_range=2.0).to(device)
         self.ssim = StructuralSimilarityIndexMeasure(data_range=2.0).to(device)
         self.lpips = lpips.LPIPS(net="alex").to(device)
-        self.fid = FrechetInceptionDistance(normalize=True).to(device)
+
+        self.fid: Optional[FrechetInceptionDistance] = None
+        if compute_fid:
+            try:
+                self.fid = FrechetInceptionDistance(normalize=True).to(device)
+            except ModuleNotFoundError:
+                print(
+                    "Warning: torch-fidelity is not installed; FID will be skipped. "
+                    "Install with: pip install torch-fidelity"
+                )
 
         self._lpips_values: List[float] = []
 
@@ -43,11 +52,16 @@ class ImageMetrics:
         self.ssim.update(fake, real)
         self._lpips_values.append(float(self.lpips(fake, real).mean().item()))
 
-        self.fid.update(self._to_fid_input(real), real=True)
-        self.fid.update(self._to_fid_input(fake), real=False)
+        if self.fid is not None:
+            self.fid.update(self._to_fid_input(real), real=True)
+            self.fid.update(self._to_fid_input(fake), real=False)
 
     def compute(self) -> Dict[str, float]:
-        fid_value = float(self.fid.compute().item()) if self._lpips_values else float("nan")
+        if self.fid is not None:
+            fid_value = float(self.fid.compute().item())
+        else:
+            fid_value = float("nan")
+
         return {
             "psnr": float(self.psnr.compute().item()),
             "ssim": float(self.ssim.compute().item()),
